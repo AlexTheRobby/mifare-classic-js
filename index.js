@@ -1,4 +1,4 @@
-var spawn = require('child_process').spawn,
+var child = require('child_process'),
     fs = require('fs'),
     fileName = 'ndef.bin'; // TODO use temp files
 
@@ -16,7 +16,7 @@ function defaultReadCallback(err, data) {
 function read(callback) {
     
     var errorMessage = "",
-        readMifareClassic = spawn('mifare-classic-read-ndef', [ '-y', '-o', fileName]);
+        readMifareClassic = child.spawn('mifare-classic-read-ndef', [ '-y', '-o', fileName]);
 
     if (!callback) { callback = defaultReadCallback; }
 
@@ -51,7 +51,7 @@ function write(data, callback) {
         
     fs.writeFile(fileName, buffer, function(err) {
         if (err) callback(err);
-        writeMifareClassic = spawn('mifare-classic-write-ndef', [ '-y', '-i', fileName]);
+        writeMifareClassic = child.spawn('mifare-classic-write-ndef', [ '-y', '-i', fileName]);
         
         writeMifareClassic.stdout.on('data', function (data) {
             process.stdout.write(data + "");
@@ -79,7 +79,7 @@ function format(callback) {
 
     if (!callback) { callback = defaultCallback; }
     
-    formatMifareClassic = spawn('mifare-classic-format', [ '-y']);
+    formatMifareClassic = child.spawn('mifare-classic-format', [ '-y']);
         
     formatMifareClassic.stdout.on('data', function (data) {
         process.stdout.write(data + "");
@@ -99,8 +99,22 @@ function format(callback) {
     });
 }
 
+function waitForNFCTag() {
+    console.log("Beginn waiting for Tag: \n");
+    child.spawnSync('./bin/nfc-mifare-wait'); 
+    
+}
+
+function waitForNFCAuth() {
+    console.log("Wait for Tag with matching UID: \n");
+    child.spawnSync('./bin/nfc-mifare-secretkey'); 
+    
+}
+
 module.exports = {
     read: read,
     write: write,
-    format: format
+    format: format,
+    waitForNFCTag: waitForNFCTag,
+    waitForNFCAuth: waitForNFCAuth
 };
