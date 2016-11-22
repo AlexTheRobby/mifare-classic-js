@@ -33,6 +33,7 @@ int main(int argc, const char *argv[])
   }
 
   printf("NFC reader: %s opened\n", nfc_device_get_name(pnd));
+  printf("Waiting for NFC-Tag....\n");
 
   // Poll for a ISO14443A (MIFARE) tag
   const nfc_modulation nmMifare = {
@@ -41,6 +42,7 @@ int main(int argc, const char *argv[])
   };
   if (nfc_initiator_select_passive_target(pnd, nmMifare, NULL, 0, &nt) > 0) {
     printf("NFC ISO14443A tag was found:\n");
+
 
   }
   // Close NFC device
