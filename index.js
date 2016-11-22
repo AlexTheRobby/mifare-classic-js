@@ -11,6 +11,11 @@ function defaultReadCallback(err, data) {
     console.log(data);
 }
 
+function defaultWaitCallback(err, data) {
+    if (err) { throw err; }
+    console.log(data);
+}
+
 // callback(err, data)
 // data is stream of ndef bytes from the tag
 function read(callback) {
@@ -99,15 +104,23 @@ function format(callback) {
     });
 }
 
-function waitForNFCTag() {
-    console.log("Beginn waiting for Tag: \n");
-    child.spawnSync('./bin/nfc-mifare-wait'); 
+function waitForNFCTag(callback) {
+    
+    var cmd=child.spawnSync('../bin/nfc-mifare-wait');
+    if (!callback) { callback = defaultWaitCallback; }
+    
+    callback(cmd.stderr.toString(), cmd.stdout.toString());
+    
+    return cmd.status;
     
 }
 
-function waitForNFCAuth() {
+function waitForNFCAuth(callback) {
     console.log("Wait for Tag with matching UID: \n");
-    child.spawnSync('./bin/nfc-mifare-secretkey'); 
+    var cmd=child.spawnSync('../bin/nfc-mifare-secretkey');
+    if (!callback) { callback = defaultWaitCallback; }
+    
+    return callback(cmd.stderr.toString(), cmd.stdout.toString());
     
 }
 
