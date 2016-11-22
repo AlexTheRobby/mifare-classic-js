@@ -6,22 +6,34 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AlexTheRobby/mifare-classic-js"
+    "url": "git+https://github.com/AlexTheRobby/mifare-classic-js.git"
   },
   "keywords": [
     "NDEF",
     "NFC"
   ],
   "license": "BSD-3-Clause",
-  "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/AlexTheRobby/mifare-classic-js/issues"
   },
-  "dependencies" : {
-    "ndef"   :  "~0.1.2"
+  "dependencies": {
+    "ndef": "~0.1.2"
   },
   "engines": {
     "node": ">=0.8"
+  },
+  "homepage": "https://github.com/AlexTheRobby/mifare-classic-js#readme",
+  "directories": {
+    "example": "examples"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "nfc-mifare-secretkey": "bin/nfc-mifare-secretkey",
+    "nfc-mifare-secretkey.c": "bin/nfc-mifare-secretkey.c",
+    "nfc-mifare-wait": "bin/nfc-mifare-wait",
+    "nfc-mifare-wait.c": "bin/nfc-mifare-wait.c"
   }
-
 }
